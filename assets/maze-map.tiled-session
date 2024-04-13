@@ -1,0 +1,28 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "exportAsImage.useCurrentScale": true,
+    "fileStates": {
+    },
+    "last.imagePath": "C:/Users/andre/Documents/UNLV Work/!Useful Cutouts & Notes/Assets for coding/top down assets",
+    "map.height": 40,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 12,
+    "map.tileWidth": 12,
+    "map.width": 70,
+    "openFiles": [
+    ],
+    "project": "maze-map.tiled-project",
+    "recentFiles": [
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 12,
+        "width": 12
+    }
+}
