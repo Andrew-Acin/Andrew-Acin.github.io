@@ -1,5 +1,6 @@
-h1 {
-    color: red;
+h1, h2 {
+    color: #004466;
+    font-family: "Rubik Bubbles", system-ui;
 }
 
 body {
@@ -7,5 +8,5 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: blue;
+    background-color: #83e2ff;
 }
