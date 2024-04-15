@@ -19,7 +19,7 @@ class Boundary {
     }
 
     draw() {
-        context.fillStyle = 'rgba(255, 0, 0, 0.0)'
+        context.fillStyle = 'rgba(255, 0, 0, 0.2)'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
@@ -27,12 +27,12 @@ class Boundary {
 const boundaries = []
 const offset = {
     x: -600,
-    y: -1012
+    y: -1050
 }
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
-        if (symbol === 1025)
+        if (symbol === 2049)
         boundaries.push(
             new Boundary(
                 {position: {
