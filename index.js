@@ -1,5 +1,6 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
+console.log(exitZonesData)
 // dimentions for canvas on screen 
 canvas.width = 1024
 canvas.height = 576
@@ -8,6 +9,13 @@ const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
+
+const exitZonesMap = []
+for (let i = 0; i < exitZonesData.length; i += 70) {
+    exitZonesMap.push(exitZonesData.slice(i, 70 + i))
+}
+
+console.log(exitZonesMap)
 // Setting up boundary for collision blocks
 class Boundary {
     static width = 48
@@ -44,6 +52,24 @@ collisionsMap.forEach((row, i) => {
     })
 })
 
+const exitZones = []
+
+exitZonesMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if (symbol === 2049)
+            exitZones.push(
+                new Boundary(
+                    {
+                        position: {
+                            x: j * Boundary.width + offset.x,
+                            y: i * Boundary.height + offset.y
+                        }
+                    })
+            )
+    })
+})
+
+console.log(exitZones)
 // links to map and character
 const image = new Image()
 image.src = 'assets/GameMap.png'
@@ -148,7 +174,7 @@ const keys = {
     }
 }
 
-const movables = [background, ...boundaries]
+const movables = [background, ...boundaries, ...exitZones]
 
 function rectangularCollision({rectangle1, rectangle2}) {
     return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -156,22 +182,41 @@ function rectangularCollision({rectangle1, rectangle2}) {
         rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y)
 }
-
+// *******animation function *********
 function animate() {
     window.requestAnimationFrame(animate)    
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()        
     })    
+    exitZones.forEach(exitZones => {
+        exitZones.draw()
+    })
     player.draw()
     
-
+     // collision detection exitZones
+    if (keys.ArrowUp.pressed || keys.ArrowDown.pressed || keys.ArrowLeft.pressed || keys.ArrowRight.pressed) {        
+        for (let i = 0; i < exitZones.length; i++) {
+            const exitZone = exitZones[i]
+            if (
+                rectangularCollision({
+                    rectangle1: player,
+                    rectangle2: exitZone
+                })
+            ) {
+                console.log('exit Zone collision')
+                break
+            }
+        }
+    }
     //    player movment
     let moving = true
     player.moving = false
     if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
         player.moving = true
         player.image = player.sprites.up
+
+            // collision detection boundaries
         for (let i = 0; i < boundaries.length; i ++) {
             const boundary = boundaries[i]
             if (
@@ -191,6 +236,8 @@ function animate() {
                 break
             }
         }
+      
+
         if (moving)
         movables.forEach(movable => {
             movable.position.y += 2
@@ -277,7 +324,7 @@ function animate() {
 }
 animate()
 
-// EventListeners for keyUp and keyDown
+// EventListener for keyUp
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
@@ -300,7 +347,7 @@ window.addEventListener('keydown', (e) => {
     }
     // console.log(keys)
 })
-
+// EventListener for keyDown
 window.addEventListener('keyup', (e) => {
     switch (e.key) {
         case 'ArrowUp':
