@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
-
+// dimentions for canvas on screen 
 canvas.width = 1024
 canvas.height = 576
 
@@ -8,7 +8,7 @@ const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
-
+// Setting up boundary for collision blocks
 class Boundary {
     static width = 48
     static height = 48
@@ -23,7 +23,7 @@ class Boundary {
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
-
+// Setting up where on the map the character starts
 const boundaries = []
 const offset = {
     x: -600,
@@ -44,30 +44,41 @@ collisionsMap.forEach((row, i) => {
     })
 })
 
-
+// links to map and character
 const image = new Image()
 image.src = 'assets/GameMap.png'
 
-const playerImage = new Image()
-playerImage.src = 'assets/playerDown.png'
+const playerUpImage = new Image()
+playerUpImage.src = 'assets/playerUp.png'
 
+const playerDownImage = new Image()
+playerDownImage.src = 'assets/playerDown.png'
 
+const playerLeftImage = new Image()
+playerLeftImage.src = 'assets/playerLeft.png'
+
+const playerRightImage = new Image()
+playerRightImage.src = 'assets/playerRight.png'
+
+// setting up Sprite for character
 class Sprite {
-    constructor({position, velocity, image, frames = { max: 1} }) {
+    constructor({position, velocity, image, frames = { max: 1}, sprites }) {
         this.position = position
         this.image = image
-        this.frames = frames
+        this.frames = {...frames, val: 0, elapsed: 0}
 
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
         }
+        this.moving = false
+        this.sprites = sprites
     }
 
     draw() {
         context.drawImage(
             this.image,
-            0,
+            this.frames.val * this.width,
             0,
             this.image.width / this.frames.max,
             this.image.height,
@@ -76,24 +87,44 @@ class Sprite {
             this.image.width / this.frames.max,
             this.image.height
         )
+
+        if (!this.moving) return
+
+        
+            if (this.frames.max > 1) {
+                this.frames.elapsed++
+            }
+
+            if (this.frames.elapsed % 15 === 0) {
+                if (this.frames.val < this.frames.max - 1) this.frames.val++
+                else this.frames.val = 0
+            }
+        
     }
 }
 
 
     
-
+// creates Sprite for character and each direction it is facing
 const player = new Sprite({
     position: {
         x: canvas.width / 2 - 192 / 2, 
         y: canvas.height / 2 - 68 / 2
     },
-    image: playerImage,
+    image: playerDownImage,
     frames: {
         max: 4
+    },
+    sprites: {
+        up: playerUpImage,
+        down: playerDownImage,
+        left: playerLeftImage,
+        right: playerRightImage,
     }
 })
+console.log(player)
 
-
+// creates background (map)
 const background = new Sprite({
     position: {
         x: offset.x,
@@ -103,16 +134,16 @@ const background = new Sprite({
 })
 
 const keys = {
-    w: {
+    ArrowUp: {
         pressed: false
     },
-    a: {
+    ArrowLeft: {
         pressed: false
     },
-    s: {
+    ArrowDown: {
         pressed: false
     },
-    d: {
+    ArrowRight: {
         pressed: false
     }
 }
@@ -125,6 +156,7 @@ function rectangularCollision({rectangle1, rectangle2}) {
         rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y)
 }
+
 function animate() {
     window.requestAnimationFrame(animate)    
     background.draw()
@@ -134,9 +166,12 @@ function animate() {
     player.draw()
     
 
-   
+    //    player movment
     let moving = true
-    if (keys.w.pressed && lastKey === 'ArrowUp') {
+    player.moving = false
+    if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
+        player.moving = true
+        player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i ++) {
             const boundary = boundaries[i]
             if (
@@ -160,7 +195,9 @@ function animate() {
         movables.forEach(movable => {
             movable.position.y += 2
         })
-    } else if (keys.a.pressed && lastKey === 'ArrowLeft') {
+    } else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
+        player.moving = true
+        player.image = player.sprites.left
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -184,7 +221,9 @@ function animate() {
         movables.forEach(movable => {
             movable.position.x += 2
         })
-    } else if (keys.s.pressed && lastKey === 'ArrowDown') {
+    } else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
+        player.moving = true
+        player.image = player.sprites.down
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -208,7 +247,9 @@ function animate() {
         movables.forEach(movable => {
             movable.position.y -= 2
         })    
-    } else if (keys.d.pressed && lastKey === 'ArrowRight') {
+    } else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
+        player.moving = true
+        player.image = player.sprites.right
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -235,23 +276,25 @@ function animate() {
     }
 }
 animate()
+
+// EventListeners for keyUp and keyDown
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'ArrowUp':
-            keys.w.pressed = true
+            keys.ArrowUp.pressed = true
             lastKey = 'ArrowUp'
             break
         case 'ArrowLeft':
-            keys.a.pressed = true
+            keys.ArrowLeft.pressed = true
             lastKey = 'ArrowLeft'
             break
         case 'ArrowDown':
-            keys.s.pressed = true
+            keys.ArrowDown.pressed = true
             lastKey = 'ArrowDown'
             break
         case 'ArrowRight':
-           keys.d.pressed = true
+            keys.ArrowRight.pressed = true
             lastKey = 'ArrowRight'
             break
     }
@@ -261,16 +304,16 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     switch (e.key) {
         case 'ArrowUp':
-            keys.w.pressed = false
+            keys.ArrowUp.pressed = false
             break
         case 'ArrowLeft':
-            keys.a.pressed = false
+            keys.ArrowLeft.pressed = false
             break
         case 'ArrowDown':
-            keys.s.pressed = false
+            keys.ArrowDown.pressed = false
             break
         case 'ArrowRight':
-            keys.d.pressed = false
+            keys.ArrowRight.pressed = false
             break
     }
     // console.log(keys)
