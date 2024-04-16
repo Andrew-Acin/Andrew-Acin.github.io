@@ -136,7 +136,7 @@ function animate() {
 
    
     let moving = true
-    if (keys.w.pressed && lastKey === 'w') {
+    if (keys.w.pressed && lastKey === 'ArrowUp') {
         for (let i = 0; i < boundaries.length; i ++) {
             const boundary = boundaries[i]
             if (
@@ -160,7 +160,7 @@ function animate() {
         movables.forEach(movable => {
             movable.position.y += 2
         })
-    } else if (keys.a.pressed && lastKey === 'a') {
+    } else if (keys.a.pressed && lastKey === 'ArrowLeft') {
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -184,7 +184,7 @@ function animate() {
         movables.forEach(movable => {
             movable.position.x += 2
         })
-    } else if (keys.s.pressed && lastKey === 's') {
+    } else if (keys.s.pressed && lastKey === 'ArrowDown') {
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -208,7 +208,7 @@ function animate() {
         movables.forEach(movable => {
             movable.position.y -= 2
         })    
-    } else if (keys.d.pressed && lastKey === 'd') {
+    } else if (keys.d.pressed && lastKey === 'ArrowRight') {
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -238,21 +238,21 @@ animate()
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
-        case 'w':
+        case 'ArrowUp':
             keys.w.pressed = true
-            lastKey = 'w'
+            lastKey = 'ArrowUp'
             break
-        case 'a':
+        case 'ArrowLeft':
             keys.a.pressed = true
-            lastKey = 'a'
+            lastKey = 'ArrowLeft'
             break
-        case 's':
+        case 'ArrowDown':
             keys.s.pressed = true
-            lastKey = 's'
+            lastKey = 'ArrowDown'
             break
-        case 'd':
+        case 'ArrowRight':
            keys.d.pressed = true
-            lastKey = 'd'
+            lastKey = 'ArrowRight'
             break
     }
     // console.log(keys)
@@ -260,16 +260,16 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
     switch (e.key) {
-        case 'w':
+        case 'ArrowUp':
             keys.w.pressed = false
             break
-        case 'a':
+        case 'ArrowLeft':
             keys.a.pressed = false
             break
-        case 's':
+        case 'ArrowDown':
             keys.s.pressed = false
             break
-        case 'd':
+        case 'ArrowRight':
             keys.d.pressed = false
             break
     }
