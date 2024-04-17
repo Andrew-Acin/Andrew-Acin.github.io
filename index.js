@@ -182,6 +182,11 @@ function rectangularCollision({rectangle1, rectangle2}) {
         rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y)
 }
+
+const exit = {
+    initiated: false
+}
+
 // *******animation function *********
 function animate() {
     window.requestAnimationFrame(animate)    
@@ -193,7 +198,12 @@ function animate() {
         exitZones.draw()
     })
     player.draw()
+
+    let moving = true
+    player.moving = false
     
+    if (exit.initiated) return
+
      // collision detection exitZones
     if (keys.ArrowUp.pressed || keys.ArrowDown.pressed || keys.ArrowLeft.pressed || keys.ArrowRight.pressed) {        
         for (let i = 0; i < exitZones.length; i++) {
@@ -204,14 +214,14 @@ function animate() {
                     rectangle2: exitZone
                 })
             ) {
-                console.log('exit Zone collision')
+                console.log('activate exit')
+                exit.initiated = true
                 break
             }
         }
     }
     //    player movment
-    let moving = true
-    player.moving = false
+    
     if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
         player.moving = true
         player.image = player.sprites.up
