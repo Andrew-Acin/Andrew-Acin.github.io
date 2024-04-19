@@ -1,0 +1,37 @@
+{
+    "activeFile": "GameMap.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "C:/Users/andre/Documents/UNLV Work/!Useful Cutouts & Notes/Assets for coding/top down assets/third map/collision.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "First Asset pack.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "GameMap.tmx": {
+            "expandedGroupLayers": [
+                51
+            ],
+            "scale": 4,
+            "selectedLayer": 46,
+            "viewCenter": {
+                "x": 706,
+                "y": 393.75
+            }
+        }
+    },
+    "openFiles": [
+        "GameMap.tmx",
+        "First Asset pack.tsx",
+        "C:/Users/andre/Documents/UNLV Work/!Useful Cutouts & Notes/Assets for coding/top down assets/third map/collision.tsx"
+    ],
+    "project": "maze-map-larger.tiled-project",
+    "recentFiles": [
+        "C:/Users/andre/Documents/UNLV Work/!Useful Cutouts & Notes/Assets for coding/top down assets/third map/collision.tsx",
+        "First Asset pack.tsx",
+        "GameMap.tmx"
+    ]
+}

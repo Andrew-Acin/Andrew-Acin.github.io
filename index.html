@@ -13,11 +13,16 @@
     <h1>Maze Game</h1>
     <h2>Press the arrow buttons to move around, find the dock to reach the exit.</h2>
     <div class="main">
-        <div class="cut-scene"></div>
+        <div id="overlappingDiv" class="cut-scene"></div>
         <canvas></canvas>
     </div>
     
     <h4>Hint - the characters head is quite large and might get in the way of some spaces</h4>
+    
+    <!-- this script link is to the gsap library which i will use to animate the exit cut scene -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+        integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="assets/ExitZones.js"></script>
     <script src="assets/collisions.js"></script>
     <script src="index.js"></script>

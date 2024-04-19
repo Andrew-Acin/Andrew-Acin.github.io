@@ -1,6 +1,9 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
-console.log(exitZonesData)
+console.log(gsap)
+
+
+
 // dimentions for canvas on screen 
 canvas.width = 1024
 canvas.height = 576
@@ -189,7 +192,7 @@ const exit = {
 
 // *******animation function *********
 function animate() {
-    window.requestAnimationFrame(animate)    
+    const animationId = window.requestAnimationFrame(animate)    
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()        
@@ -201,7 +204,8 @@ function animate() {
 
     let moving = true
     player.moving = false
-    
+
+    console.log(animationId)
     if (exit.initiated) return
 
      // collision detection exitZones
@@ -215,7 +219,30 @@ function animate() {
                 })
             ) {
                 console.log('activate exit')
+                // deactivate current animation loop
+                window.cancelAnimationFrame(animationId)
+
                 exit.initiated = true
+                gsap.to('#overlappingDiv', { /* This is the activation of the exit scene using the gsap library */
+                    opacity: 1,
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.4,
+                    onComplete() {
+                        gsap.to('#overlappingDiv', {
+                            opacity: 1,
+                            duration: 0.4,
+                            onComplete() {
+                                // activate a new animation loop
+                                animateExit()
+                                gsap.to('#overlappingDiv', {
+                                    opacity: 0,
+                                    duration: 0.4,                                    
+                                })
+                            }
+                        })
+                    }
+                })
                 break
             }
         }
@@ -333,6 +360,20 @@ function animate() {
     }
 }
 animate()
+
+const characterOnBoatImage = new Image()
+characterOnBoatImage.src = 'assets/characterOnBoat.png'
+const characterOnBoat = new Sprite({
+    position: {
+        x:0,
+        y:0
+    },
+    image: characterOnBoatImage
+})
+function animateExit() {
+    window.requestAnimationFrame(animateExit)
+    characterOnBoat.draw()
+}
 
 // EventListener for keyUp
 let lastKey = ''
