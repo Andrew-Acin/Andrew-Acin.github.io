@@ -165,6 +165,7 @@ const background = new Sprite({
     image: image
 })
 
+// this const is to define the keys as not pressed so eventListenrs can detect presses
 const keys = {
     ArrowUp: {
         pressed: false
@@ -182,6 +183,7 @@ const keys = {
 
 const movables = [background, ...boundaries, ...exitZones]
 
+// this function turns the player and exit zone into rectagles that i can ue to activate the exit
 function rectangularCollision({rectangle1, rectangle2}) {
     return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
         rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
@@ -250,8 +252,8 @@ function animate() {
             }
         }
     }
-    //    player movment
     
+    //    player movment
     if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
         player.moving = true
         player.image = player.sprites.up
