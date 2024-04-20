@@ -28,7 +28,7 @@ There is no real losing in this game as the player is free to backtrack and take
 The player will know they have completed the game when they reach the exit as there will be a cut scene type end with a message, they will also not be able to continue moving the charater around as it will be a differnt screen.
 
 - Deployment
-  This game is live on https://andrew-acin.github.io/
+This game is live on https://andrew-acin.github.io/
 
 Links to website i need to make this game.
 
@@ -41,7 +41,7 @@ https://www.youtube.com/watch?v=yP5DKzriqXA&t=15466s
 This is where i downloaded the map creating software tiled.
 https://www.mapeditor.org/
 
-- Stretch goals
-  1.I would like to add the forgrounds to make the player walk behind objects when walking.
-  2.I would like to add extra maps to make the game longer so would need to connect more maps to exits.
-  3.Add obsticles that player needs to avoid to continue.
+- Stretch goals 
+I would like to add the forgrounds to make the player walk behind objects when walking.
+I would like to add extra maps to make the game longer so would need to connect more maps to exits.
+Add obsticles that player needs to avoid to continue.
