@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
-console.log(gsap)
+
 
 
 
@@ -8,6 +8,7 @@ console.log(gsap)
 canvas.width = 1024
 canvas.height = 576
 
+// values for the map, length is 70 as that is how wide the map is that i made in Tiled so there are 40 rows of 70 tiles each.
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i))
@@ -18,7 +19,7 @@ for (let i = 0; i < exitZonesData.length; i += 70) {
     exitZonesMap.push(exitZonesData.slice(i, 70 + i))
 }
 
-console.log(exitZonesMap)
+
 // Setting up boundary for collision blocks
 class Boundary {
     static width = 48
@@ -41,6 +42,7 @@ const offset = {
     y: -1050
 }
 
+// this states which blocks are Boundaries (collisions)
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
         if (symbol === 2049)
@@ -57,6 +59,7 @@ collisionsMap.forEach((row, i) => {
 
 const exitZones = []
 
+// this is the Boundaries for the two blocks that are the exit
 exitZonesMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
         if (symbol === 2049)
@@ -72,7 +75,7 @@ exitZonesMap.forEach((row, i) => {
     })
 })
 
-console.log(exitZones)
+
 // links to map and character
 const image = new Image()
 image.src = 'assets/GameMap.png'
@@ -151,7 +154,7 @@ const player = new Sprite({
         right: playerRightImage,
     }
 })
-console.log(player)
+
 
 // creates background (map)
 const background = new Sprite({
@@ -205,7 +208,7 @@ function animate() {
     let moving = true
     player.moving = false
 
-    console.log(animationId)
+   
     if (exit.initiated) return
 
      // collision detection exitZones
@@ -361,6 +364,7 @@ function animate() {
 }
 animate()
 
+// Exit cut scene Image
 const characterOnBoatImage = new Image()
 characterOnBoatImage.src = 'assets/characterOnBoat.png'
 const characterOnBoat = new Sprite({
